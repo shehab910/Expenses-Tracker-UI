@@ -27,7 +27,7 @@ class MyHomePage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Chart(),
-          UserTrenasactions(),
+          UserTransactions(),
         ],
       ),
     );

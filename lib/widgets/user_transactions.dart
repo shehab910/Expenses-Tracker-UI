@@ -4,12 +4,12 @@ import './new_transaction.dart';
 import './transactions-list.dart';
 import '../models/transaction.dart';
 
-class UserTrenasactions extends StatefulWidget {
+class UserTransactions extends StatefulWidget {
   @override
-  _UserTrenasactionsState createState() => _UserTrenasactionsState();
+  _UserTransactionsState createState() => _UserTransactionsState();
 }
 
-class _UserTrenasactionsState extends State<UserTrenasactions> {
+class _UserTransactionsState extends State<UserTransactions> {
   final _userTransactions = [
     Transaction(title: 'phone', amount: 2000, dateTime: DateTime.now()),
     Transaction(title: 'headphones', amount: 500, dateTime: DateTime.now()),

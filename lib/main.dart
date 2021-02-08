@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import './widgets/chart.dart';
+import './widgets/user_transactions.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -19,8 +22,15 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Flutter App'),
       ),
-      body: Container(
-        child: Text('hey'),
+      body: SingleChildScrollView(
+        child: Column(
+          // mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Chart(),
+            UserTrenasactions(),
+          ],
+        ),
       ),
     );
   }

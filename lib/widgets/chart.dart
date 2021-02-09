@@ -5,7 +5,7 @@ class Chart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(5),
-      color: Colors.blue[800],
+      color: Colors.grey[350],
       child: Card(
         margin: EdgeInsets.all(2),
         child: Text('chart'),

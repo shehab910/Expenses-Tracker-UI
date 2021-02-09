@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import './widgets/chart.dart';
-import './widgets/user_transactions.dart';
 import './widgets/new_transaction.dart';
 import './widgets/transactions-list.dart';
 import 'models/transaction.dart';
@@ -12,7 +11,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Flutter App",
+      title: "Personal Expenses",
+      theme: ThemeData(
+        primarySwatch: Colors.indigo,
+        accentColor: Colors.amber,
+      ),
       home: MyHomePage(),
     );
   }
@@ -25,8 +28,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final _userTransactions = [
-    Transaction(title: 'phone', amount: 2000, dateTime: DateTime.now()),
-    Transaction(title: 'headphones', amount: 500, dateTime: DateTime.now()),
+    Transaction(title: 'supermarket', amount: 50, dateTime: DateTime.now()),
+    Transaction(title: 'headphones', amount: 99.99, dateTime: DateTime.now()),
   ];
 
   void _addNewTransaction(String txTitle, double txAmount) {
@@ -53,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flutter App'),
+        title: Text('Personal Expenses'),
         actions: [
           IconButton(
             icon: Icon(Icons.add),

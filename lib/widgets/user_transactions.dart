@@ -10,30 +10,10 @@ class UserTransactions extends StatefulWidget {
 }
 
 class _UserTransactionsState extends State<UserTransactions> {
-  final _userTransactions = [
-    Transaction(title: 'phone', amount: 2000, dateTime: DateTime.now()),
-    Transaction(title: 'headphones', amount: 500, dateTime: DateTime.now()),
-  ];
-
-  void _addNewTransaction(String txTitle, double txAmount) {
-    final newTx = Transaction(
-      title: txTitle,
-      amount: txAmount,
-      dateTime: DateTime.now(),
-    );
-
-    setState(() {
-      _userTransactions.add(newTx);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [
-        NewTransaction(_addNewTransaction),
-        TransactionList(_userTransactions),
-      ],
+      children: [],
     );
   }
 }

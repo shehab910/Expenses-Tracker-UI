@@ -48,12 +48,7 @@ class TransactionList extends StatelessWidget {
                             1,
                             txList[index].title.substring(0, 1).toUpperCase(),
                           ),
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16.5,
-                        color: Colors.black,
-                        letterSpacing: 0.8,
-                      ),
+                      style: Theme.of(context).textTheme.headline6,
                     ),
                     SizedBox(height: 4),
                     Text(

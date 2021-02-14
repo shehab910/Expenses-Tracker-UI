@@ -11,6 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: "Personal Expenses",
       theme: ThemeData(
         primarySwatch: Colors.indigo,
@@ -48,9 +49,27 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final _userTransactions = <Transaction>[
-    // Transaction(title: 'supermarket', amount: 50, dateTime: DateTime.now()),
-    // Transaction(title: 'headphones', amount: 99.99, dateTime: DateTime.now()),
+    Transaction(
+        title: 'supermarket',
+        amount: 50,
+        dateTime: DateTime.now().subtract(Duration(days: 2))),
+    Transaction(
+        title: 'headphones',
+        amount: 99.99,
+        dateTime: DateTime.now().subtract(Duration(days: 5))),
+    Transaction(
+        title: 'shoes',
+        amount: 60.5,
+        dateTime: DateTime.now().subtract(Duration(days: 1))),
   ];
+
+  List<Transaction> get _recentTransactions {
+    return _userTransactions.where((tx) {
+      return tx.dateTime.isAfter(
+        DateTime.now().subtract(Duration(days: 7)),
+      );
+    }).toList();
+  }
 
   void _addNewTransaction(String txTitle, double txAmount) {
     final newTx = Transaction(
@@ -99,7 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
         // mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Chart(),
+          Chart(_recentTransactions),
           TransactionList(_userTransactions),
         ],
       ),

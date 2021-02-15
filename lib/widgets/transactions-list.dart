@@ -5,8 +5,9 @@ import '../models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> txList;
+  final Function deleteTx;
 
-  TransactionList(this.txList);
+  TransactionList(this.txList, this.deleteTx);
 
   @override
   Widget build(BuildContext context) {
@@ -58,30 +59,46 @@ class TransactionList extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            txList[index].title.replaceRange(
-                                  0,
-                                  1,
-                                  txList[index]
-                                      .title
-                                      .substring(0, 1)
-                                      .toUpperCase(),
-                                ),
-                            style: Theme.of(context).textTheme.headline6,
-                          ),
-                          SizedBox(height: 4),
-                          Text(
-                            DateFormat.yMMMEd().format(txList[index].dateTime),
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey[600],
+                      Expanded(
+                        flex: 3,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              txList[index].title.replaceRange(
+                                    0,
+                                    1,
+                                    txList[index]
+                                        .title
+                                        .substring(0, 1)
+                                        .toUpperCase(),
+                                  ),
+                              style: Theme.of(context).textTheme.headline6,
                             ),
+                            SizedBox(height: 4),
+                            Text(
+                              DateFormat.yMMMEd()
+                                  .format(txList[index].dateTime),
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey[600],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Flexible(
+                        flex: 1,
+                        fit: FlexFit.tight,
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.delete_forever_rounded,
+                            color: Theme.of(context).errorColor,
                           ),
-                        ],
-                      )
+                          onPressed: () => deleteTx(txList[index].id),
+                          // alignment: Alignment.centerRight,
+                        ),
+                      ),
                     ],
                   ),
                 );

@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import './widgets/chart.dart';
 import './widgets/new_transaction.dart';
 import './widgets/transactions-list.dart';
 import 'models/transaction.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  //BLOCK LANDSCAPE MODE
+  // WidgetsFlutterBinding.ensureInitialized();
+  // SystemChrome.setPreferredOrientations(
+  //   [
+  //     DeviceOrientation.portraitDown,
+  //     DeviceOrientation.portraitUp,
+  //   ],
+  // );
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -64,6 +75,8 @@ class _MyHomePageState extends State<MyHomePage> {
         dateTime: DateTime.now().subtract(Duration(days: 1))),
   ];
 
+  bool _showChart = false;
+
   List<Transaction> get _recentTransactions {
     return _userTransactions.where((tx) {
       return tx.dateTime.isAfter(
@@ -99,24 +112,27 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  final appBar = AppBar(
+    title: Text(
+      'Personal Expenses',
+      //   style: Theme.of(context)
+      //       .textTheme
+      //       .headline6
+      //       .copyWith(color: Colors.white),
+      // ),
+      // actions: [
+      //   IconButton(
+      //     icon: Icon(Icons.add),
+      //     onPressed: () => _startAddNewTransaction(context),
+    ),
+    // ],
+  );
   @override
   Widget build(BuildContext context) {
+    final chartHeightRatio = 0.25;
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Personal Expenses',
-          style: Theme.of(context)
-              .textTheme
-              .headline6
-              .copyWith(color: Colors.white),
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () => _startAddNewTransaction(context),
-          ),
-        ],
-      ),
+      appBar: appBar,
       floatingActionButton: FloatingActionButton(
         onPressed: () => _startAddNewTransaction(context),
         child: Icon(Icons.add),
@@ -126,8 +142,48 @@ class _MyHomePageState extends State<MyHomePage> {
         // mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Chart(_recentTransactions),
-          TransactionList(_userTransactions, _deleteTransaction),
+          Container(
+            height: (MediaQuery.of(context).size.height -
+                    appBar.preferredSize.height -
+                    MediaQuery.of(context).padding.top) *
+                0.08,
+            child: Row(
+              //crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                FittedBox(
+                  child: Text(
+                    'Show Chart',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ),
+                Switch(
+                  value: _showChart,
+                  onChanged: (val) {
+                    setState(() {
+                      _showChart = val;
+                    });
+                  },
+                ),
+              ],
+            ),
+          ),
+          _showChart
+              ? Container(
+                  height: (MediaQuery.of(context).size.height -
+                          appBar.preferredSize.height - //height of app barr
+                          MediaQuery.of(context)
+                              .padding
+                              .top) * // height of status bar
+                      chartHeightRatio,
+                  child: Chart(_recentTransactions))
+              : Container(
+                  height: (MediaQuery.of(context).size.height -
+                          appBar.preferredSize.height -
+                          MediaQuery.of(context).padding.top) *
+                      (0.92 - chartHeightRatio),
+                  child:
+                      TransactionList(_userTransactions, _deleteTransaction)),
         ],
       ),
     );

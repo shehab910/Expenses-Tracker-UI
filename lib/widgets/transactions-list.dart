@@ -88,18 +88,35 @@ class TransactionList extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Flexible(
-                      flex: 1,
-                      fit: FlexFit.tight,
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.delete_forever_rounded,
-                          color: Theme.of(context).errorColor,
+                    if (MediaQuery.of(context).size.width > 460)
+                      Flexible(
+                        flex: 2,
+                        fit: FlexFit.tight,
+                        child: FittedBox(
+                          child: FlatButton.icon(
+                            label: Text('Delete'),
+                            textColor: Theme.of(context).errorColor,
+                            icon: Icon(
+                              Icons.delete_forever_rounded,
+                            ),
+                            onPressed: () => deleteTx(txList[index].id),
+                            // alignment: Alignment.centerRight,
+                          ),
                         ),
-                        onPressed: () => deleteTx(txList[index].id),
-                        // alignment: Alignment.centerRight,
                       ),
-                    ),
+                    if (!(MediaQuery.of(context).size.width > 460))
+                      Flexible(
+                        flex: 1,
+                        fit: FlexFit.tight,
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.delete_forever_rounded,
+                            color: Theme.of(context).errorColor,
+                          ),
+                          onPressed: () => deleteTx(txList[index].id),
+                          // alignment: Alignment.centerRight,
+                        ),
+                      ),
                   ],
                 ),
               );

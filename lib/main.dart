@@ -129,13 +129,14 @@ class _MyHomePageState extends State<MyHomePage> {
   );
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(
+        context); //its better to store mediaquery in a var if you gonna use it alot
     final chartHeightRatio = 0.25;
-    final isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
+    final isLandscape = mediaQuery.orientation == Orientation.landscape;
     final txListWidget = Container(
-        height: (MediaQuery.of(context).size.height -
+        height: (mediaQuery.size.height -
                 appBar.preferredSize.height -
-                MediaQuery.of(context).padding.top) *
+                mediaQuery.padding.top) *
             (0.92 - chartHeightRatio),
         child: TransactionList(_userTransactions, _deleteTransaction));
 
@@ -152,9 +153,9 @@ class _MyHomePageState extends State<MyHomePage> {
         children: <Widget>[
           if (isLandscape)
             Container(
-              height: (MediaQuery.of(context).size.height -
+              height: (mediaQuery.size.height -
                       appBar.preferredSize.height -
-                      MediaQuery.of(context).padding.top) *
+                      mediaQuery.padding.top) *
                   0.08,
               child: Row(
                 //crossAxisAlignment: CrossAxisAlignment.center,
@@ -179,22 +180,18 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           if (!isLandscape)
             Container(
-                height: (MediaQuery.of(context).size.height -
+                height: (mediaQuery.size.height -
                         appBar.preferredSize.height - //height of app barr
-                        MediaQuery.of(context)
-                            .padding
-                            .top) * // height of status bar
+                        mediaQuery.padding.top) * // height of status bar
                     0.3,
                 child: Chart(_recentTransactions)),
           if (!isLandscape) txListWidget,
           if (isLandscape)
             _showChart
                 ? Container(
-                    height: (MediaQuery.of(context).size.height -
+                    height: (mediaQuery.size.height -
                             appBar.preferredSize.height - //height of app barr
-                            MediaQuery.of(context)
-                                .padding
-                                .top) * // height of status bar
+                            mediaQuery.padding.top) * // height of status bar
                         0.8,
                     child: Chart(_recentTransactions))
                 : txListWidget

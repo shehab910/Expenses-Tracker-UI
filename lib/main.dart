@@ -130,6 +130,14 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     final chartHeightRatio = 0.25;
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+    final txListWidget = Container(
+        height: (MediaQuery.of(context).size.height -
+                appBar.preferredSize.height -
+                MediaQuery.of(context).padding.top) *
+            (0.92 - chartHeightRatio),
+        child: TransactionList(_userTransactions, _deleteTransaction));
 
     return Scaffold(
       appBar: appBar,
@@ -142,48 +150,54 @@ class _MyHomePageState extends State<MyHomePage> {
         // mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Container(
-            height: (MediaQuery.of(context).size.height -
-                    appBar.preferredSize.height -
-                    MediaQuery.of(context).padding.top) *
-                0.08,
-            child: Row(
-              //crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                FittedBox(
-                  child: Text(
-                    'Show Chart',
-                    style: TextStyle(fontSize: 18),
+          if (isLandscape)
+            Container(
+              height: (MediaQuery.of(context).size.height -
+                      appBar.preferredSize.height -
+                      MediaQuery.of(context).padding.top) *
+                  0.08,
+              child: Row(
+                //crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  FittedBox(
+                    child: Text(
+                      'Show Chart',
+                      style: TextStyle(fontSize: 18),
+                    ),
                   ),
-                ),
-                Switch(
-                  value: _showChart,
-                  onChanged: (val) {
-                    setState(() {
-                      _showChart = val;
-                    });
-                  },
-                ),
-              ],
+                  Switch(
+                    value: _showChart,
+                    onChanged: (val) {
+                      setState(() {
+                        _showChart = val;
+                      });
+                    },
+                  ),
+                ],
+              ),
             ),
-          ),
-          _showChart
-              ? Container(
-                  height: (MediaQuery.of(context).size.height -
-                          appBar.preferredSize.height - //height of app barr
-                          MediaQuery.of(context)
-                              .padding
-                              .top) * // height of status bar
-                      chartHeightRatio,
-                  child: Chart(_recentTransactions))
-              : Container(
-                  height: (MediaQuery.of(context).size.height -
-                          appBar.preferredSize.height -
-                          MediaQuery.of(context).padding.top) *
-                      (0.92 - chartHeightRatio),
-                  child:
-                      TransactionList(_userTransactions, _deleteTransaction)),
+          if (!isLandscape)
+            Container(
+                height: (MediaQuery.of(context).size.height -
+                        appBar.preferredSize.height - //height of app barr
+                        MediaQuery.of(context)
+                            .padding
+                            .top) * // height of status bar
+                    0.3,
+                child: Chart(_recentTransactions)),
+          if (!isLandscape) txListWidget,
+          if (isLandscape)
+            _showChart
+                ? Container(
+                    height: (MediaQuery.of(context).size.height -
+                            appBar.preferredSize.height - //height of app barr
+                            MediaQuery.of(context)
+                                .padding
+                                .top) * // height of status bar
+                        0.8,
+                    child: Chart(_recentTransactions))
+                : txListWidget
         ],
       ),
     );

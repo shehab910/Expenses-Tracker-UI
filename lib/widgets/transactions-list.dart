@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import '../models/transaction.dart';
+import './transaction_item.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> txList;
@@ -34,92 +34,8 @@ class TransactionList extends StatelessWidget {
           )
         : ListView.builder(
             itemBuilder: (cxt, index) {
-              return Card(
-                margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
-                elevation: 3,
-                child: Row(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.symmetric(
-                        horizontal: 15,
-                        vertical: 10,
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Theme.of(context).primaryColor,
-                          width: 2,
-                        ),
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                      padding: EdgeInsets.all(10),
-                      child: Text(
-                        '\$${txList[index].amount.toStringAsFixed(2)}',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: Theme.of(context).primaryColorDark,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            txList[index].title.replaceRange(
-                                  0,
-                                  1,
-                                  txList[index]
-                                      .title
-                                      .substring(0, 1)
-                                      .toUpperCase(),
-                                ),
-                            style: Theme.of(context).textTheme.headline6,
-                          ),
-                          SizedBox(height: 4),
-                          Text(
-                            DateFormat.yMMMEd().format(txList[index].dateTime),
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey[600],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    if (MediaQuery.of(context).size.width > 460)
-                      Flexible(
-                        flex: 2,
-                        fit: FlexFit.tight,
-                        child: FittedBox(
-                          child: FlatButton.icon(
-                            label: Text('Delete'),
-                            textColor: Theme.of(context).errorColor,
-                            icon: Icon(
-                              Icons.delete_forever_rounded,
-                            ),
-                            onPressed: () => deleteTx(txList[index].id),
-                            // alignment: Alignment.centerRight,
-                          ),
-                        ),
-                      ),
-                    if (!(MediaQuery.of(context).size.width > 460))
-                      Flexible(
-                        flex: 1,
-                        fit: FlexFit.tight,
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.delete_forever_rounded,
-                            color: Theme.of(context).errorColor,
-                          ),
-                          onPressed: () => deleteTx(txList[index].id),
-                          // alignment: Alignment.centerRight,
-                        ),
-                      ),
-                  ],
-                ),
-              );
+              return TransactionItem(
+                  transaction: txList[index], deleteTx: deleteTx);
             },
             itemCount: txList.length,
           );

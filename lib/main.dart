@@ -127,6 +127,62 @@ class _MyHomePageState extends State<MyHomePage> {
     ),
     // ],
   );
+
+  List<Widget> _displayLandscapeContent(
+      MediaQueryData mediaQuery, Widget txListWidget) {
+    return [
+      Container(
+        height: (mediaQuery.size.height -
+                appBar.preferredSize.height -
+                mediaQuery.padding.top) *
+            0.08,
+        child: Row(
+          //crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            FittedBox(
+              child: Text(
+                'Show Chart',
+                style: TextStyle(fontSize: 18),
+              ),
+            ),
+            Switch(
+              value: _showChart,
+              onChanged: (val) {
+                setState(() {
+                  _showChart = val;
+                });
+              },
+            ),
+          ],
+        ),
+      ),
+      _showChart
+          ? Container(
+              height: (mediaQuery.size.height -
+                      appBar.preferredSize.height - //height of app barr
+                      mediaQuery.padding.top) * // height of status bar
+                  0.8,
+              child: Chart(_recentTransactions),
+            )
+          : txListWidget
+    ];
+  }
+
+  List<Widget> _displayPortraitContent(
+      MediaQueryData mediaQuery, Widget txListWidget) {
+    return [
+      Container(
+        height: (mediaQuery.size.height -
+                appBar.preferredSize.height - //height of app barr
+                mediaQuery.padding.top) * // height of status bar
+            0.3,
+        child: Chart(_recentTransactions),
+      ),
+      txListWidget,
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(
@@ -152,49 +208,9 @@ class _MyHomePageState extends State<MyHomePage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           if (isLandscape)
-            Container(
-              height: (mediaQuery.size.height -
-                      appBar.preferredSize.height -
-                      mediaQuery.padding.top) *
-                  0.08,
-              child: Row(
-                //crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  FittedBox(
-                    child: Text(
-                      'Show Chart',
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  ),
-                  Switch(
-                    value: _showChart,
-                    onChanged: (val) {
-                      setState(() {
-                        _showChart = val;
-                      });
-                    },
-                  ),
-                ],
-              ),
-            ),
+            ..._displayLandscapeContent(mediaQuery, txListWidget),
           if (!isLandscape)
-            Container(
-                height: (mediaQuery.size.height -
-                        appBar.preferredSize.height - //height of app barr
-                        mediaQuery.padding.top) * // height of status bar
-                    0.3,
-                child: Chart(_recentTransactions)),
-          if (!isLandscape) txListWidget,
-          if (isLandscape)
-            _showChart
-                ? Container(
-                    height: (mediaQuery.size.height -
-                            appBar.preferredSize.height - //height of app barr
-                            mediaQuery.padding.top) * // height of status bar
-                        0.8,
-                    child: Chart(_recentTransactions))
-                : txListWidget
+            ..._displayPortraitContent(mediaQuery, txListWidget),
         ],
       ),
     );

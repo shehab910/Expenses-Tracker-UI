@@ -59,7 +59,7 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   final _userTransactions = <Transaction>[
     Transaction(
         title: 'supermarket',
@@ -127,6 +127,23 @@ class _MyHomePageState extends State<MyHomePage> {
     ),
     // ],
   );
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    print(state);
+  }
+
+  @override
+  dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
   List<Widget> _displayLandscapeContent(
       MediaQueryData mediaQuery, Widget txListWidget) {

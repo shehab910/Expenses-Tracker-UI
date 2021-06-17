@@ -14,7 +14,7 @@ A Flutter UI App for tracking your weekly expenses that help you stay under budg
 |:-:|:-:|
 | ![Third](../assets/image3.png?raw=true) | ![Fourth](../assets/image4.png?raw=true) |
 ## Demo
-| ![Demo](../assets/gif.gif?raw=true) |
+<img src="../assets/gif.gif" alt="Demo" width="450"/> <br/>
 ## What Doesn't work yet
 - Saving expenses
 #### Icons
